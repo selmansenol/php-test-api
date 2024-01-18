@@ -14,6 +14,25 @@ $userData = $_SESSION['userData'];
 $bitisTarihi = new DateTime($userData['tariffExpiryDate']);
 $bugun = new DateTime();
 $kalanGun = $bitisTarihi > $bugun ? $bugun->diff($bitisTarihi)->days : 0;
+
+function formatData($data, $replace = []) {
+    $patterns = [
+        'Ã–' => 'Ö',
+        'Ä°' => 'İ',
+        'Ğ' => 'Ğ',
+        'Ş' => 'Ş',
+        'Ç' => 'Ç',
+        'Ãœ' => 'Ü',
+    ];
+
+    $replace = array_merge($patterns, $replace);
+
+    return str_replace(array_keys($replace), array_values($replace), $data);
+}
+
+
+$userData['address'] = formatData($userData['address']);
+$userData['tariffName'] = formatData($userData['tariffName']);
 ?>
 
 <!DOCTYPE html>
